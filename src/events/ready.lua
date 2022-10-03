@@ -7,5 +7,5 @@
 --//Main
 
 return function(Discordia, Client)
-    print(Discordia, Client)
+
 end

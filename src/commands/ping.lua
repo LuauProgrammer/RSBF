@@ -1,9 +1,12 @@
-local Command = {
-    Name = "ping"
+local command = {
+    name = "ping",
+    description = "the funny",
+    category = "Misc",
+    cooldown = 0
 }
 
-function Command:Execute(Discordia, Client, Message, Arguments)
-    print(Discordia.Date:toSeconds())
+function command:execute(discordia, client, message, arguments)
+    message:reply("Pong!")
 end
 
-return Command
+return command

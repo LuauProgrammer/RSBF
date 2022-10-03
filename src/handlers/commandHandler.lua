@@ -6,18 +6,19 @@
 
 --//Libraries
 
-local FileSystem = require("fs")
+local fs = require("fs")
 
 --//Main
 
-return function(Discordia, Client)
-    for _, FileName in ipairs(FileSystem.readdirSync("./src/commands/")) do
-        if FileName:endswith(".lua") then
-            local Module = require("../commands/" .. FileName)
-            local Type = type(Module)
-            assert(Type == "table", "Expected table, got " .. Type)
-            assert(Module.Execute and Module.Name, "Missing Execute or Name from command table")
-            Client._commands[Module.Name] = Module
+return function(discordia, client)
+    for _, fileName in ipairs(fs.readdirSync("./src/commands/")) do
+        if fileName:endswith(".lua") then
+            local module = require("../commands/" .. fileName)
+            local type = type(module)
+            assert(type == "table", "Expected table, got " .. type)
+            assert(module.execute and module.name and module.cooldown,
+                "Missing required fields from command table (ie: name, execute function, cooldown)") --//Bare-bones properties/functions needed to operate.
+            client._commands[module.name] = module
         end
     end
 end

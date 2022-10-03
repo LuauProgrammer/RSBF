@@ -6,18 +6,18 @@
 
 --//Libraries
 
-local FileSystem = require("fs")
+local fs = require("fs")
 
 --//Main
 
-return function(Discordia, Client)
-    for _, FileName in ipairs(FileSystem.readdirSync("./src/events/")) do
-        if FileName:endswith(".lua") then
-            local Module = require("../events/" .. FileName)
-            local Type = type(Module)
-            assert(Type == "function", "Expected function, got " .. Type)
-            Client:on(FileName:match("(.+)%..+$"), function(...)
-                Module(Discordia, Client, ...) --//Cannot directly pass in the function as we need to pass in the client and discordia.
+return function(discordia, client)
+    for _, fileName in ipairs(fs.readdirSync("./src/events/")) do
+        if fileName:endswith(".lua") then
+            local module = require("../events/" .. fileName)
+            local type = type(module)
+            assert(type == "function", "Expected function, got " .. type)
+            client:on(fileName:match("(.+)%..+$"), function(...)
+                module(discordia, client, ...) --//Cannot directly pass in the function as we need to pass in the client and discordia.
             end)
         end
     end
