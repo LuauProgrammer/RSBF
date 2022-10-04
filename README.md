@@ -79,4 +79,4 @@ end
 
 ## Disclaimer
 
-I made this in about a day so I probably made mistakes here and there. Opening issues & pull requests are always appreciated.
+I made this in about a day so I probably made mistakes here and there. Opening issues & pull requests is always appreciated.
