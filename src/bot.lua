@@ -49,4 +49,4 @@ end
 --//Finish everything up
 
 configuration:close() --//Close our file.
-client:run('Bot ' .. client._configuration.token)
+client:run('Bot ' .. client._configuration.token, client._configuration.presence)

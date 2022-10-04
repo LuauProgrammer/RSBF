@@ -6,6 +6,6 @@
 
 --//Main
 
-return function(Discordia, Client)
-
+return function(discordia, client)
+    print("Logged in as " .. client.user.username .. "#" .. client.user.discriminator)
 end
