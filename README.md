@@ -1,6 +1,6 @@
 # Really Simple Bot Framework (RSBF)
 
-Simple bot framework written in lua using discordia. Do I recommend this over Discord.js? No, but if you have no other option, this is your best bet. This uses luvit, so if you don't habe that installed, head over to [luvit's website](https://luvit.io/install.html) and install it.
+Simple bot framework written in lua using discordia. Do I recommend this over Discord.js? No, but if you have no other option, this is your best bet. This uses luvit, so if you don't have that installed, head over to [luvit's website](https://luvit.io/install.html) and install it.
 
 ## Installation (easy lol)
 
