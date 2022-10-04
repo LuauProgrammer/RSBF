@@ -10,6 +10,8 @@ Simple bot framework written in lua using discordia. Do I recommend this over Di
 **Download Dependencies:**
 ``lit install``
 
+**OR:** Download a release.
+
 ## Configuration
 
 You'll find that in the config.json file there are a few variables you can change. Here's what they all do.
