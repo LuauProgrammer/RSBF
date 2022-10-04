@@ -1,6 +1,6 @@
 local command = {
     name = "ping",
-    description = "the funny",
+    description = "Ping Pong!",
     category = "Misc",
     cooldown = 0
 }

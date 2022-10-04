@@ -30,6 +30,7 @@ client._cooldowns = {}
 
 for _, fileName in ipairs(fs.readdirSync("./src/utilities")) do --//FS is weird and we have to do ./src/utilities
     if fileName:endswith(".lua") then --//Only get lua files.
+        assert(not client._commands[fileName], "Duplicate utilities are not allowed.")
         client._utilities[fileName] = require("./utilities/" .. fileName)
     end
 end

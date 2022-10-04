@@ -18,6 +18,7 @@ return function(discordia, client)
             assert(type == "table", "Expected table, got " .. type)
             assert(module.execute and module.name and module.cooldown,
                 "Missing required fields from command table (ie: name, execute function, cooldown)") --//Bare-bones properties/functions needed to operate.
+            assert(not client._commands[module.name], "Duplicate commands are not allowed.")
             client._commands[module.name] = module
         end
     end
