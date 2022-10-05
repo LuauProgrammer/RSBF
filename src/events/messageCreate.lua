@@ -16,6 +16,25 @@ local function cooldown(client, commandName, userId, guildId)
     end
 end
 
+local function getPermissions(user, permissions)
+    if #permissions > 0 then
+        local userPermissions = {}
+        for _, permission in ipairs(permissions) do
+            if user:hasPermission(permission) then
+                if not permissions.requireAll then
+                    return true
+                else
+                    table.insert(userPermissions, permission)
+                end
+            end
+        end
+        if #userPermissions < #permissions then
+            return false
+        end
+    end
+    return true
+end
+
 return function(discordia, client, message)
     if message.guild then
         local arguments = message.content:split(" ")
@@ -30,11 +49,16 @@ return function(discordia, client, message)
                     end
                 end
                 if not client._cooldowns[message.guild.id][commandName][message.author.id] then
-                    client._cooldowns[message.guild.id][commandName][message.author.id] = true
-                    timer.setTimeout(client._commands[commandName].cooldown * 1000, cooldown, client, commandName,
-                        message.author.id,
-                        message.guild.id)
-                    client._commands[commandName]:execute(discordia, client, message, arguments)
+                    if getPermissions(message.guild:getMember(message.author), client._commands[commandName].permissions) then
+                        client._cooldowns[message.guild.id][commandName][message.author.id] = true
+                        timer.setTimeout(client._commands[commandName].cooldown * 1000, cooldown, client, commandName,
+                            message.author.id,
+                            message.guild.id)
+                        client._commands[commandName]:execute(discordia, client, message, arguments)
+                    else
+                        message:reply(message.author.mentionString ..
+                            ", You are lacking the appropriate permissions to run this command!")
+                    end
                 else
                     message:reply(message.author.mentionString .. ", A little too quick there.")
                 end

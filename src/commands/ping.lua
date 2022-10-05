@@ -2,7 +2,10 @@ local command = {
     name = "ping",
     description = "Ping Pong!",
     category = "Misc",
-    cooldown = 0
+    cooldown = 0,
+    permissions = {
+        requireAll = false,
+    }
 }
 
 function command:execute(discordia, client, message, arguments)
