@@ -1,6 +1,6 @@
 return {
   name = "RSBF",
-  version = "0.0.1",
+  version = "0.0.2",
   description = "Really Simple Bot Framework.",
   tags = { "lua", "lit", "luvit" },
   license = "MIT",
