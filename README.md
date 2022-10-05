@@ -10,7 +10,7 @@ Simple bot framework written in lua using discordia. Do I recommend this over Di
 **Download Dependencies:**
 ``lit install``
 
-**OR:** Download a release.
+**OR:** Download from zip.
 
 ## Configuration
 
