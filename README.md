@@ -52,6 +52,9 @@ local command = {
     description = "<Description>",
     category = "<Category>",
     cooldown = "<Cooldown, in seconds>"
+    permissions = {
+        requireAll = false,
+    }
 }
 
 function command:execute(discordia, client, message, arguments)
