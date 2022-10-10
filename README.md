@@ -48,9 +48,10 @@ They must all follow a structure like this:
 
 ```lua
 local command = {
-    name = "<CommandName>",
-    description = "<Description>",
-    category = "<Category>",
+    name = "<Command Name>",
+    description = "<Description>", --Optional
+    usage = "<Command Usage>", --Optional
+    category = "<Category>", --Optional, but commands without it won't be shown when running help unless they're specified in the first argument.
     cooldown = "<Cooldown, in seconds>"
     permissions = {
         requireAll = false,
