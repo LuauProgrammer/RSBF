@@ -11,7 +11,7 @@ local timer = require("timer")
 --//Main
 
 local function cooldown(client, commandName, userId, guildId)
-    if client._cooldowns[guildId] then
+    if client._cooldowns[guildId] then --//double check
         client._cooldowns[guildId][commandName][userId] = nil
     end
 end
@@ -49,11 +49,12 @@ return function(discordia, client, message)
                     end
                 end
                 if not client._cooldowns[message.guild.id][commandName][message.author.id] then
-                    if getPermissions(message.guild:getMember(message.author), client._commands[commandName].permissions) then
+                    if getPermissions(message.guild:getMember(message.author), client._commands[commandName].permissions)
+                        or message.author == client.owner then --//bypass if owner.
                         client._cooldowns[message.guild.id][commandName][message.author.id] = true
                         timer.setTimeout(client._commands[commandName].cooldown * 1000, cooldown, client, commandName,
                             message.author.id,
-                            message.guild.id)
+                            message.guild.id) --//set timeout for cooldown
                         client._commands[commandName]:execute(discordia, client, message, arguments)
                     else
                         message:reply(message.author.mentionString ..

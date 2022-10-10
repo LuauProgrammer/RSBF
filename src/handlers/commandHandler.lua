@@ -15,11 +15,12 @@ return function(discordia, client)
         if fileName:endswith(".lua") then
             local module = require("../commands/" .. fileName)
             local type = type(module)
+            local lower = module.name:lower() --//Internally make these lowercase.
             assert(type == "table", "Expected table, got " .. type)
             assert(module.execute and module.name and module.cooldown and module.permissions,
                 "Missing required fields from command table (ie: name, execute function, permissions,  cooldown)") --//Bare-bones properties/functions needed to operate.
-            assert(not client._commands[module.name], "Duplicate commands are not allowed.")
-            client._commands[module.name] = module
+            assert(not client._commands[lower], "Duplicate commands are not allowed.")
+            client._commands[lower] = module
         end
     end
 end

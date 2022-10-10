@@ -1,5 +1,6 @@
 local command = {
     name = "help",
+    usage = "<command name>",
     description = "Get all command info.",
     category = "Misc",
     cooldown = 0,
@@ -21,31 +22,54 @@ local function tableToString(table)
 end
 
 function command:execute(discordia, client, message, arguments)
-    local categories = {}
+    local asLower = arguments[1] and arguments[1]:lower()
+    if asLower and not client._commands[asLower] then
+        return message:reply("I could not find a command with the name ``" .. arguments[1] .. "``.")
+    end
     local embed = {
         title = "Commands",
-        fields = {},
+        fields = {}
     }
-    for _, commandModule in pairs(client._commands) do
-        if not categories[commandModule.category] then
-            categories[commandModule.category] = ""
+    if not arguments[1] then
+        local categories = {}
+        for _, commandModule in pairs(client._commands) do
+            if not command.category then return end
+            if not categories[commandModule.category] then
+                categories[commandModule.category] = ""
+            end
+            categories[commandModule.category] = categories[commandModule.category] ..
+                "\n``" .. client._configuration.prefix .. commandModule.name .. " " .. (commandModule.usage or
+                    "") .. (commandModule.description and "`` - " .. commandModule.description or "")
         end
-        local permissions = commandModule.permissions
-        permissions.requireAll = nil
-        permissions = #permissions > 0 and "\n**Permissions:** " .. tableToString(permissions) or ""
-        categories[commandModule.category] = categories[commandModule.category] .. "\n\n**Name:** " ..
-            commandModule.name ..
-            "\n**Cooldown:** " ..
-            commandModule.cooldown ..
-            " Seconds" ..
-            permissions .. "\n**Description:** " .. commandModule.description
-    end
-    for category, field in pairs(categories) do
-        table.insert(embed.fields, {
-            name = category,
-            value = field,
-            inline = false
-        })
+        for category, field in pairs(categories) do
+            table.insert(embed.fields, {
+                name = category,
+                value = field,
+                inline = false
+            })
+        end
+    else
+        local commandModule = client._commands[asLower]
+        embed.title = commandModule.name
+        embed.description = commandModule.description or nil
+        embed.fields = {
+            commandModule.usage and {
+                name = "Usage",
+                value = "``" .. client._configuration.prefix .. commandModule.name .. " " .. commandModule.usage .. "``",
+                inline = true
+
+            } or nil,
+            commandModule.cooldown > 0 and {
+                name = "Cooldown",
+                value = commandModule.cooldown .. " Seconds",
+                inline = true
+            } or nil,
+            #commandModule.permissions > 0 and {
+                name = "Permissions",
+                value = tableToString(commandModule.Permissions),
+                inline = true
+            } or nil,
+        }
     end
     message:reply { embed = embed }
 end
